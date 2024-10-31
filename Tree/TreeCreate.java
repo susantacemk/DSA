@@ -1,8 +1,6 @@
 package Tree;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
+import java.util.*;
 public class TreeCreate {
 
     // Create a treeNode
@@ -170,6 +168,82 @@ public class TreeCreate {
             return new TreeInfo(myHeight, myDiam);
         }
 
+        // DFS
+
+        public static void dfs(TreeNode root){
+            Stack<TreeNode>stack=new Stack<>();
+            stack.push(root);
+            while(!stack.isEmpty()){
+                TreeNode curr=stack.peek();
+                stack.pop();
+                System.out.print(curr.value+" ");
+                if(curr.right!=null){
+                    stack.push(curr.right);
+                }
+                if(curr.left!=null){
+                    stack.push(curr.left);
+                }
+            }
+        }
+        // Right side view
+        public static List<Integer> righSide(TreeNode root){
+            List<Integer>ansList=new ArrayList<>();
+            Queue<List<TreeNode>>queue=new LinkedList<>();
+            List<TreeNode>temp=new ArrayList<>(Arrays.asList(root));
+            queue.add(temp);
+            while(!queue.isEmpty()){
+                List<TreeNode>curr=queue.remove();
+                ansList.add(curr.get(curr.size()-1).value);
+                List<TreeNode>tNodes=new ArrayList<>();
+                int size=curr.size();
+                for(int i=0;i<size;i++){
+                    TreeNode t=curr.get(i);
+                    if(t.left!=null){
+                        tNodes.add(t.left);
+                    }
+                    if(t.right!=null){
+                        tNodes.add(t.right);
+                    }
+                }
+                if(tNodes.size()>0)
+                    queue.add(tNodes);
+            }
+            return ansList;
+        }
+
+        // maxSum Level 
+        public static int maxSumLevel(TreeNode root){
+            int level=0;
+            Map<Integer,Integer>map=new HashMap<>();
+            Queue<List<TreeNode>>queue=new LinkedList<>();
+            queue.add(new ArrayList<>(Arrays.asList(root)));
+
+            while(!queue.isEmpty()){
+                List<TreeNode>curr=queue.remove();
+                List<TreeNode>tNodes=new ArrayList<>();
+                int sum=0;
+                for(int i=0;i<curr.size();i++){
+                    sum+=curr.get(i).value;
+                    if(curr.get(i).left!=null){
+                        tNodes.add(curr.get(i).left);
+                    }
+                    if(curr.get(i).right!=null){
+                        tNodes.add(curr.get(i).right);
+                    }
+                }
+                map.put(sum, level+1);
+                if(tNodes.size()>0)
+                    queue.add(tNodes);
+            }
+            int maxSum=-100000;
+            for(Integer it:map.values()){
+                if(maxSum<it.intValue()){
+                    maxSum=it.intValue();
+                }
+            }
+            System.out.println(maxSum);
+            return map.get(maxSum);
+        }
     }
     public static void main(String[] args){
         int[]nodes={1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
@@ -184,9 +258,13 @@ public class TreeCreate {
         // BinaryTree.inOrderTraversal(root);
         // System.out.println();
         // BinaryTree.bfs(root);
-        System.out.println("Count of Nodes= "+BinaryTree.countNodes(root));
-        System.out.println("Sum of all Nodes: "+BinaryTree.sumNodes(root));
-        System.out.println("Height of the Tree :: "+BinaryTree.height(root));
-        System.out.println("Diameter of the Tree::"+BinaryTree.diameter2(root).diam);
+        // System.out.println("Count of Nodes= "+BinaryTree.countNodes(root));
+        // System.out.println("Sum of all Nodes: "+BinaryTree.sumNodes(root));
+        // System.out.println("Height of the Tree :: "+BinaryTree.height(root));
+        // System.out.println("Diameter of the Tree::"+BinaryTree.diameter2(root).diam);
+        // BinaryTree.dfs(root);
+        System.out.println();
+        // System.out.println("Right Side View::"+BinaryTree.righSide(root));
+        System.out.println(BinaryTree.maxSumLevel(root));
     }
 }
