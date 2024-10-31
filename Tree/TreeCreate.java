@@ -223,7 +223,7 @@ public class TreeCreate {
                 List<TreeNode>tNodes=new ArrayList<>();
                 int sum=0;
                 for(int i=0;i<curr.size();i++){
-                    sum+=curr.get(i).value;
+                    sum+=curr.get(i).value;                                                                                                                                                                                                               
                     if(curr.get(i).left!=null){
                         tNodes.add(curr.get(i).left);
                     }
