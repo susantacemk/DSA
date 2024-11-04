@@ -20,19 +20,18 @@ public class TreeCreate {
 
     static class BinaryTree {
         // method
-        static int idx = -1;
-
+        static int idx=-1;
         public static TreeNode buildTree(int[] nodes) {
             idx++;
             if (nodes[idx] == -1) {
-                return null;
+            return null;
             }
-
             TreeNode newNode = new TreeNode(nodes[idx]);
             newNode.left = buildTree(nodes);
             newNode.right = buildTree(nodes);
 
             return newNode;
+            
         }
 
         // pre-order Traversal
@@ -247,15 +246,61 @@ public class TreeCreate {
             }
             return level;
         }
+
+        // All leaf same in two root tree
+        // https://leetcode.com/problems/leaf-similar-trees/description/?envType=study-plan-v2&envId=leetcode-75
+        public static boolean leafSimilar(TreeNode root1, TreeNode root2) {
+            List<Integer> list1 = new ArrayList<>();
+            List<Integer> list2 = new ArrayList<>();
+            if (root1 != null)
+                helper(root1, list1);
+            if (root2 != null)
+                helper(root2, list2);
+
+            System.out.println("List1 :: " + list1);
+            System.out.println("List2 ::" + list2);
+            if (list1.size() != list2.size()) {
+                return false;
+            }
+            for (int i = 0; i < list1.size(); i++) {
+                if (list1.get(i) - list2.get(i) != 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // helper function
+        public static void helper(TreeNode root, List<Integer> list) {
+            // Base case
+            if (root.left == null && root.right == null) {
+                list.add(root.value);
+            }
+
+            if (root.left != null) {
+                helper(root.left, list);
+            }
+
+            if (root.right != null) {
+                helper(root.right, list);
+            }
+        }
     }
 
     public static void main(String[] args) {
-        int[] nodes = { 1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1 };
-        TreeNode root = BinaryTree.buildTree(nodes);
+        int[] nodes = { 1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
+        TreeNode root1 = BinaryTree.buildTree(nodes);
+        System.out.print("pre order Traversal Root 1::  ");
+        BinaryTree.preOrderTraversal(root1);
+
+        BinaryTree.idx=-1;
+        int[]nodes2={10,30,4,-1,-1,5,-1,-1,50,-1,6,-1,-1};
+        TreeNode root2=BinaryTree.buildTree(nodes2);
         // System.out.println(root.value +" and left "+root.left.value+" and right
         // "+root.right.value);
-        // System.out.print("pre order Traversal::");
-        // BinaryTree.preOrderTraversal(root);
+       
+        System.out.print("\npre order Traversal Root 2::");
+        BinaryTree.preOrderTraversal(root2);
         // System.out.print("post order Traversal::");
         // BinaryTree.postOrderTraversal(root);
         // System.out.println();
@@ -270,6 +315,8 @@ public class TreeCreate {
         // BinaryTree.dfs(root);
         System.out.println();
         // System.out.println("Right Side View::"+BinaryTree.righSide(root));
-        System.out.println(BinaryTree.maxSumLevel(root));
+        // System.out.println(BinaryTree.maxSumLevel(root));
+
+        System.out.println(BinaryTree.leafSimilar(root1, root2));
     }
 }
