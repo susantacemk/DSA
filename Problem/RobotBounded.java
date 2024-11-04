@@ -1,4 +1,4 @@
-package New;
+package Problem;
 // Problem Link -- https://leetcode.com/problems/robot-bounded-in-circle/description/
 import java.io.BufferedReader;
 import java.io.*;
