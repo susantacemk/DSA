@@ -20,18 +20,19 @@ public class TreeCreate {
 
     static class BinaryTree {
         // method
-        static int idx=-1;
+        static int idx = -1;
+
         public static TreeNode buildTree(int[] nodes) {
             idx++;
             if (nodes[idx] == -1) {
-            return null;
+                return null;
             }
             TreeNode newNode = new TreeNode(nodes[idx]);
             newNode.left = buildTree(nodes);
             newNode.right = buildTree(nodes);
 
             return newNode;
-            
+
         }
 
         // pre-order Traversal
@@ -285,20 +286,71 @@ public class TreeCreate {
                 helper(root.right, list);
             }
         }
+
+        static int count;
+
+        public static int goodNodes(TreeNode root) {
+            if (root == null) {
+                return 0;
+            }
+            count = 0;
+            helper(root, root.value);
+            return count;
+        }
+
+        public static void helper(TreeNode root, int max) {
+            if (root == null) {
+                return;
+            }
+            if (root.value >= max) {
+                count++;
+                max = root.value;
+            }
+            helper(root.left, max);
+            helper(root.right, max);
+        }
+
+    }
+
+    static int maxZigZagLength = 0;
+
+    public static int longestZigZag(TreeNode root) {
+        // dir 0 -> left
+        // dir 1 -> right
+        helperZigZag(root, 0, 1);
+        helperZigZag(root, 1, 1);
+        return maxZigZagLength;
+    }
+// https://leetcode.com/problems/longest-zigzag-path-in-a-binary-tree/description/?envType=study-plan-v2&envId=leetcode-75
+    private static void helperZigZag(TreeNode root, int dir, int len) {
+        if(root==null){
+            return;
+        }
+        maxZigZagLength=Math.max(maxZigZagLength,len);
+
+        if(dir==0){
+            // left 
+            helperZigZag(root.left, 0, 1);
+            helperZigZag(root.right, 1, len+1);
+        }else{
+            // right
+            helperZigZag(root.right, 1, 1);
+            helperZigZag(root.left, 0, len+1);
+        }
     }
 
     public static void main(String[] args) {
-        int[] nodes = { 1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
-        TreeNode root1 = BinaryTree.buildTree(nodes);
-        System.out.print("pre order Traversal Root 1::  ");
-        BinaryTree.preOrderTraversal(root1);
+        // int[] nodes = { 1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1 };
+        // TreeNode root1 = BinaryTree.buildTree(nodes);
+        // System.out.print("pre order Traversal Root 1:: ");
+        // BinaryTree.preOrderTraversal(root1);
 
-        BinaryTree.idx=-1;
-        int[]nodes2={10,30,4,-1,-1,5,-1,-1,50,-1,6,-1,-1};
-        TreeNode root2=BinaryTree.buildTree(nodes2);
+        BinaryTree.idx = -1;
+        int[] nodes2 = { 3, 1, 3, -1, -1, -1, 4, 1, -1, -1, 5, -1, -1 };
+        TreeNode root2 = BinaryTree.buildTree(nodes2);
         // System.out.println(root.value +" and left "+root.left.value+" and right
         // "+root.right.value);
-       
+
         System.out.print("\npre order Traversal Root 2::");
         BinaryTree.preOrderTraversal(root2);
         // System.out.print("post order Traversal::");
@@ -317,6 +369,8 @@ public class TreeCreate {
         // System.out.println("Right Side View::"+BinaryTree.righSide(root));
         // System.out.println(BinaryTree.maxSumLevel(root));
 
-        System.out.println(BinaryTree.leafSimilar(root1, root2));
+        // System.out.println(BinaryTree.leafSimilar(root1, root2));
+
+        System.out.println(BinaryTree.goodNodes(root2));
     }
 }
