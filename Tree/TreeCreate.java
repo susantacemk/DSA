@@ -321,22 +321,49 @@ public class TreeCreate {
         helperZigZag(root, 1, 1);
         return maxZigZagLength;
     }
-// https://leetcode.com/problems/longest-zigzag-path-in-a-binary-tree/description/?envType=study-plan-v2&envId=leetcode-75
+
+    // https://leetcode.com/problems/longest-zigzag-path-in-a-binary-tree/description/?envType=study-plan-v2&envId=leetcode-75
     private static void helperZigZag(TreeNode root, int dir, int len) {
-        if(root==null){
+        if (root == null) {
             return;
         }
-        maxZigZagLength=Math.max(maxZigZagLength,len);
+        maxZigZagLength = Math.max(maxZigZagLength, len);
 
-        if(dir==0){
-            // left 
+        if (dir == 0) {
+            // left
             helperZigZag(root.left, 0, 1);
-            helperZigZag(root.right, 1, len+1);
-        }else{
+            helperZigZag(root.right, 1, len + 1);
+        } else {
             // right
             helperZigZag(root.right, 1, 1);
-            helperZigZag(root.left, 0, len+1);
+            helperZigZag(root.left, 0, len + 1);
         }
+    }
+
+    // Path Sum equal to target sum
+    // https://leetcode.com/problems/path-sum-iii/description/?envType=study-plan-v2&envId=leetcode-75
+    public int pathSum(TreeNode root, int targetSum) {
+        Map<Long,Integer>hmap=new HashMap<>();
+        hmap.put(0L, 1);
+        return helperPath(root, targetSum, hmap,0L);
+
+    }
+
+    private int helperPath(TreeNode root, int targetSum,Map<Long,Integer>map,Long prefixSum) {
+        if(root==null){
+            return 0;
+        }
+
+        prefixSum+=root.value;
+
+        int count = map.getOrDefault(prefixSum - targetSum, 0);
+
+        map.put(prefixSum, map.getOrDefault(prefixSum, 0) + 1);
+        count += helperPath(root.left, targetSum, map, prefixSum);
+        count += helperPath(root.right, targetSum, map, prefixSum);
+        map.put(prefixSum, map.get(prefixSum) - 1);
+
+        return count;
     }
 
     public static void main(String[] args) {
