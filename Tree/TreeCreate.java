@@ -366,6 +366,26 @@ public class TreeCreate {
         return count;
     }
 
+    // https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/?envType=study-plan-v2&envId=leetcode-75
+    // Lowest Common Ancestor
+    public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null || root==p || root==q){
+            return root;
+        }
+
+        TreeNode Left=lowestCommonAncestor(root.left,p,q);
+        TreeNode Right=lowestCommonAncestor(root.right,p,q);
+
+        if(Left==null){
+            return Right;
+        }
+        else if(Right==null){
+            return Left;
+        }else{
+            return root;
+        }
+    }
+
     public static void main(String[] args) {
         // int[] nodes = { 1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1 };
         // TreeNode root1 = BinaryTree.buildTree(nodes);
