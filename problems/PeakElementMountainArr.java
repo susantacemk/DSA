@@ -1,4 +1,4 @@
-package BinarySearch.problems;
+package problems;
 
 // Problem Links -https://leetcode.com/problems/peak-index-in-a-mountain-array/
 public class PeakElementMountainArr {

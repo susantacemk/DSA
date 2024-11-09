@@ -1,4 +1,4 @@
-package BinarySearch.problems;
+package problems;
 
 // https://leetcode.com/problems/find-smallest-letter-greater-than-target/description/
 // same as ceiling of a number problem

@@ -1,4 +1,4 @@
-package BinarySearch.problems;
+package problems;
 
 public interface MountainArray {
 

@@ -1,4 +1,4 @@
-package BinarySearch.problems;
+package problems;
 
 public class SearchingInRotateArray {
     public static void main(String[] args) {
